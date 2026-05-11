@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Train ML models if not present
-RUN python -c "
+RUN python <<'TRAIN_SCRIPT'
 import os, subprocess, sys
 model_dir = 'models'
 required = ['random_forest.pkl', 'decision_tree.pkl', 'label_encoder.pkl']
@@ -32,7 +32,7 @@ if missing:
     print('Models trained successfully!')
 else:
     print('ML models already present.')
-"
+TRAIN_SCRIPT
 
 # Expose port (Railway uses PORT env variable)
 EXPOSE 8000
